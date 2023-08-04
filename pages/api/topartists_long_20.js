@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     return
   }
 
-  const response = (await getUsersTop(session.accessToken, 'artists', 'long_term'))
+  const response = (await getUsersTop(session.accessToken, 'artists', 'long_term', '20'))
   const {items} = await response.json()
 
   return res.status(200).json({items})
