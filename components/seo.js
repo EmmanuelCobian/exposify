@@ -5,7 +5,7 @@ export default function SEO({ pageTitle, pageDescription }) {
         <Head>
             <title>{pageTitle}</title>
             <meta name="description" content={pageDescription} />
-            <link rel="icon" href="../public/favicon.ico"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
         </Head>
     )
 } 
