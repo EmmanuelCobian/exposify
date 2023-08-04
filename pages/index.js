@@ -76,11 +76,11 @@ export default function Home() {
               <Navbar.Text>
                 Signed in as: <span>{session.user.name}</span>
               </Navbar.Text>
-              <Button className='ms-3' variant='outline-success' onClick={() => signOut({ callbackUrl: '/' })}>Sign out</Button>
+              <Button className={styles.navSignOut} onClick={() => signOut({ callbackUrl: '/' })}>Sign out</Button>
             </Navbar.Collapse>
             : 
             <Navbar.Collapse className="justify-content-end">
-              <Button className='ms-2' variant='success' onClick={() => signIn('spotify', { callbackUrl: '/' })}>Sign in with <i className='bi bi-spotify ms-1' /></Button>
+              <Button className={styles.navSignIn} onClick={() => signIn('spotify', { callbackUrl: '/' })}>Sign in with <i className='bi bi-spotify ms-1' /></Button>
             </Navbar.Collapse>}
         </Container>
       </Navbar>
