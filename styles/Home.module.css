@@ -51,8 +51,25 @@
 }
 
 .results {
-  padding: 1em 0;
+  padding: 0.1em 0;
   background-color: #e1ece3;
+}
+
+.resHeader {
+  /* background-image: url('../public/circle-scatter-haikei.svg'); */
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid red; */
+}
+
+.stackedWaves {
+  background-image: url('../public/stacked-waves-haikei.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .footer {
@@ -82,7 +99,9 @@
 
 /* Mobile */
 @media (max-width: 700px) {
-  
+  .landing {
+    background-image: url('../public/blob-scene-haikei\ \(3\).svg');
+  }
 }
 
 /* Tablet and Smaller Desktop */

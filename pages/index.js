@@ -60,7 +60,6 @@ export default function Home() {
       getUniqueScore('short', 10)
       var element = document.getElementById("results")
       setTimeout(() => element.scrollIntoView(), 500)
-      
     }
   }, [status])
 
@@ -87,8 +86,8 @@ export default function Home() {
 
       <section id='landing' className={styles.landing}>
         <Container>
-          <h3 className='fs-1'>What Does Your <br/>Artist Taste Mean?</h3>
-          <p className='w-50 mx-auto'>Some text taking about some random stuff and some more sentences talking about some other more things that idk what i'll put here yet</p>
+          <h3 className='fs-1'>What Does Your <br/>Top Artists Say About You?</h3>
+          <p className='w-50 mx-auto'>Learn more about what your top artists say about you by signing into your Spotify account below!</p>
           {session ? 
             <Button className={styles.landingBtn} href='#results' onClick={() => getUniqueScore('short', 10)}>Check Me Out</Button>
           :
@@ -98,50 +97,55 @@ export default function Home() {
       </section>
 
       <section id='results' className={styles.results}>
-          {resultState ? 
-          <Container>
-            <div className='text-center my-5'>
-              <div className='my-5'>
-                <h4>{reactionsTitles[resultState]}</h4>
-                <p>{reactionsDesc[resultState]}</p>
+          {resultState &&
+          <div>
+            <div className={styles.resHeader}>
+              <h3>Here are the results!</h3>
+              <h3>{reactionsTitles[resultState]}</h3>
+              <p>{reactionsDesc[resultState]}</p>
+            </div>
+            <div className={styles.stackedWaves}>
+            <Container>
+              <div className='text-center my-5'>
+                <h3>Don't believe it? <br/>Here's the proof</h3>
+                <p>Below are your top artists as of late</p>
               </div>
-              <h3>Don't believe it? <br/>Here's the proof</h3>
-              <p>Below are your top artists as of late</p>
+              <div className='text-center mb-3'>
+                <ToggleButtonGroup type="radio" name="time-options" defaultValue={1}>
+                  <ToggleButton variant='outline-success' id="short-term" value={1} onChange={() => getUniqueScore('short', limit)}>
+                    Last Month
+                  </ToggleButton>
+                  <ToggleButton variant='outline-success' id="mid-term" value={2} onChange={() => getUniqueScore('mid', limit)} className='mx-2'>
+                    Last 6 Months
+                  </ToggleButton>
+                  <ToggleButton variant='outline-success' id="long-term" value={3} onChange={() => getUniqueScore('long', limit)}>
+                    Last Year
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </div>
+              <div className='text-center mb-3'>
+                <ToggleButtonGroup type="radio" name="qty-options" defaultValue={1}>
+                  <ToggleButton variant='outline-success' id="10" value={1} onChange={() => getUniqueScore(span, 10)}>
+                    10
+                  </ToggleButton>
+                  <ToggleButton variant='outline-success' id="20" value={2} onChange={() => getUniqueScore(span, 20)} className='mx-1'>
+                    20
+                  </ToggleButton>
+                  <ToggleButton variant='outline-success' id="40" value={3} onChange={() => getUniqueScore(span, 40)}>
+                    40
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </div>
+              <ArtistList artists={artists}/>
+            </Container>
             </div>
-            <div className='text-center mb-3'>
-              <ToggleButtonGroup type="radio" name="time-options" defaultValue={1}>
-                <ToggleButton variant='outline-success' id="short-term" value={1} onChange={() => getUniqueScore('short', limit)}>
-                  Last Month
-                </ToggleButton>
-                <ToggleButton variant='outline-success' id="mid-term" value={2} onChange={() => getUniqueScore('mid', limit)} className='mx-2'>
-                  Last 6 Months
-                </ToggleButton>
-                <ToggleButton variant='outline-success' id="long-term" value={3} onChange={() => getUniqueScore('long', limit)}>
-                  Last Year
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </div>
-            <div className='text-center mb-3'>
-              <ToggleButtonGroup type="radio" name="qty-options" defaultValue={1}>
-                <ToggleButton variant='outline-success' id="10" value={1} onChange={() => getUniqueScore(span, 10)}>
-                  10
-                </ToggleButton>
-                <ToggleButton variant='outline-success' id="20" value={2} onChange={() => getUniqueScore(span, 20)} className='mx-1'>
-                  20
-                </ToggleButton>
-                <ToggleButton variant='outline-success' id="40" value={3} onChange={() => getUniqueScore(span, 40)}>
-                  40
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </div>
-            <ArtistList artists={artists}/>
-          </Container>
-          : <div></div>}
+          </div>
+          }
       </section>
 
       <footer id='footer' className={styles.footer}>
         <p>Made by Emmanuel Cobian Duarte</p>
-        <a className={styles.socials} href='mailto:emmanuel12310@berkeley.edu'><i className='bi bi-github fs-3 me-2'/></a>
+        <a className={styles.socials} href='https://github.com/EmmanuelCobian' target='_blank'><i className='bi bi-github fs-3 me-2'/></a>
         <a className={styles.socials} href='https://www.linkedin.com/in/emmanuel-cobian/' target='_blank'><i className='bi bi-linkedin fs-3'/></a>
       </footer>
     </>
