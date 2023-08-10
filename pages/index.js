@@ -114,7 +114,7 @@ export default function Home() {
           {session ? 
             <Button className={styles.landingBtn} href='#results' onClick={() => getUniqueScore('short', 10)}>Check Me Out</Button>
           :
-          <Button className={styles.landingBtn} href='#results' onClick={() => signIn('spotify', { callbackUrl: '/' })}>Sign in with <i className='bi bi-spotify ms-1' /></Button>
+          <Button className={styles.landingBtn} onClick={() => signIn('spotify', { callbackUrl: '/' })}>Sign in with <i className='bi bi-spotify ms-1' /></Button>
           }
         </Container>
       </section>
