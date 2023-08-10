@@ -4,6 +4,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import { Container, Button, Row, Col } from 'react-bootstrap'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
+import classnames from 'classnames'
 import SEO from '../components/seo'
 import ArtistList from '../components/artistsList'
 import styles from '@/styles/Home.module.css'
@@ -15,28 +16,43 @@ export default function Home() {
   const [artists, setArtists] = useState([])
   const [avgPop, setAvgPop] = useState(0)
   const [resultState, setResultState] = useState('')
+  const [resDescIndex, setResDescIndex] = useState(0)
   const reactionsTitles = {
     '':'',
-    'low':'Oh ok 🙄',
-    'mid':"Don't get ahead of yourself",
+    'low':'Rare Breed',
+    'mid':'Reformed Normie 👏',
     'high':'Local 🥱',
+    'clouds':'NPC 🤖',
   }
   const reactionsDesc = {
-    '':'',
-    'low':'You wanna be different sooooooo bad',
-    'mid':"Local x normie spot the difference (level impossible)",
-    'high':"Where's the flavor?? Like.... Log off",
+    '':[''],
+    'low':['Wow. Didn\t think people like you would exist, much less use this app. Good for you :)', 'You are either a music major or depressed (hopefully not both)', 'You are the definition of \"scaring the hoes\"'],
+    'mid':['You\'ve outgrown your old ways, and for the better. Well done.', 'You must think your taste is elite (it probably is)',],
+    'high':['You should check out your Discover Weekly playlist more often', 'Statistically speaking, your taste is mid', 'Just becuase you don\'t hear them on the radio doesn\'t mean they\'re underground', 'You have the taste of the average TikTok user'],
+    'clouds':['Not that it\'s a bad thing, but maybe look into something new. Maybe you\'ll like it.', 'It\'s just a phase...It\'s just a phase...It\'s just a phase...', '2.0 GPA type activities', 'You talk about your high school years a litle bit too much'],
+  }
+
+  const median = arr => {
+    const mid = Math.floor(arr.length / 2),
+      nums = [...arr].sort((a, b) => a - b)
+    return arr.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2
   }
 
   const getMyTopArtists = async (time, limit) => {
     const res = await fetch('/api/topartists_' + time + '_' + limit)
     const {items} = await res.json()
     let cumSum = 0
+    let popularities = []
+
     for (let i = 0; i < items.length; i++) {
       let popularity = items[i].popularity
+      popularities.push(popularity)
       cumSum += popularity
     }
-    const result = cumSum / items.length
+
+    const middle = median(popularities)
+    const mean = cumSum / items.length
+    const result = Math.min(middle, mean)
     setAvgPop(result)
     setArtists(items)
     return result
@@ -45,13 +61,20 @@ export default function Home() {
   const getUniqueScore = async (timeRange, limit) => {
     setSpan(timeRange)
     setLimit(limit)
+    
     const popularity = await getMyTopArtists(timeRange, limit)
     if (popularity <= 50) {
       setResultState('low')
-    } else if (popularity <= 85) {
+      setResDescIndex(Math.floor(Math.random() * reactionsDesc['low'].length))
+    } else if (popularity <= 75) {
       setResultState('mid')
-    } else {
+      setResDescIndex(Math.floor(Math.random() * reactionsDesc['mid'].length))
+    } else if (popularity <= 83) {
       setResultState('high')
+      setResDescIndex(Math.floor(Math.random() * reactionsDesc['high'].length))
+    } else {
+      setResultState('clouds')
+      setResDescIndex(Math.floor(Math.random() * reactionsDesc['clouds'].length))
     }
   }
 
@@ -59,7 +82,7 @@ export default function Home() {
     if (status == 'authenticated') {
       getUniqueScore('short', 10)
       var element = document.getElementById("results")
-      setTimeout(() => element.scrollIntoView(), 500)
+      setTimeout(() => element.scrollIntoView(), 1000)
     }
   }, [status])
 
@@ -100,9 +123,9 @@ export default function Home() {
           {resultState &&
           <div>
             <div className={styles.resHeader}>
-              <h3>Here are the results!</h3>
-              <h3>{reactionsTitles[resultState]}</h3>
-              <p>{reactionsDesc[resultState]}</p>
+              <h3 className={'mb-5'}>Your top artists say you're a(n)...</h3>
+              <h3 className={styles.reactionTitle}>{reactionsTitles[resultState]}</h3>
+              <p className={classnames('fs-5', styles.reactionDesc)}>{reactionsDesc[resultState][resDescIndex]}</p>
             </div>
             <div className={styles.stackedWaves}>
             <Container>

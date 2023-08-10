@@ -56,13 +56,25 @@
 }
 
 .resHeader {
-  /* background-image: url('../public/circle-scatter-haikei.svg'); */
-  height: 300px;
+  background-image: url('../public/blob-haikei\ \(1\).svg');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 600px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* border: 1px solid red; */
+  text-align: center;
+}
+
+.reactionTitle {
+  /* width: 50%; */
+  margin-top: 1em;
+}
+
+.reactionDesc {
+  width: 25%;
 }
 
 .stackedWaves {
@@ -98,9 +110,21 @@
 }
 
 /* Mobile */
-@media (max-width: 700px) {
+@media (max-width: 768px) {
   .landing {
     background-image: url('../public/blob-scene-haikei\ \(3\).svg');
+  }
+
+  .resHeader {
+    background-size: cover;
+  }
+
+  .resultTitle {
+
+  }
+  
+  .reactionDesc {
+    width: 60%;
   }
 }
 

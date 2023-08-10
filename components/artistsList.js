@@ -1,6 +1,8 @@
 import Badge from 'react-bootstrap/Badge'
 import ListGroup from 'react-bootstrap/ListGroup'
 import { Row, Col, Image } from 'react-bootstrap'
+import styles from '../styles/ArtistsList.module.css'
+import classnames from 'classnames'
 
 export default function ArtistsList({ artists  }) {
     const getPopularity = (score) => {
@@ -54,10 +56,10 @@ export default function ArtistsList({ artists  }) {
                         className="d-flex align-items-center w-100 mx-auto mb-2 bg-success-subtle"
                         key={item.id}
                         >
-                            <div className="ms-2 me-auto d-flex align-items-center">
+                            <div className="me-auto d-flex align-items-center">
                                 <div>{index + 1}.</div>
-                                <Image className='mx-2' src={item.images[0]?.url} height={75} width={75} rounded/>
-                                <div className="fw-bold">{item.name}</div>
+                                <Image className={styles.artistImg} src={item.images[0]?.url} height={75} width={75} rounded/>
+                                <div className="fw-semibold">{item.name}</div>
                             </div>
                             {getPopularity(item.popularity)}
                         </ListGroup.Item>
@@ -72,10 +74,10 @@ export default function ArtistsList({ artists  }) {
                         className="d-flex justify-content-between align-items-center w-100 mx-auto mb-2 bg-success-subtle"
                         key={item.id}
                         >
-                            <div className="ms-2 me-auto d-flex align-items-center">
+                            <div className="me-auto d-flex align-items-center">
                                 <div >{index + 1 + Math.floor(artists.length / 2)}.</div>
-                                <Image className='mx-2' src={item.images[0]?.url} height={75} width={75} rounded/>
-                                <div className="fw-bold">{item.name}</div>
+                                <Image className={styles.artistImg} src={item.images[0]?.url} height={75} width={75} rounded/>
+                                <div className="fw-semibold">{item.name}</div>
                             </div>
                             {getPopularity(item.popularity)}
                         </ListGroup.Item>
