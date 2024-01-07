@@ -77,6 +77,24 @@
   width: 25%;
 }
 
+.offcanvas {
+  height: 95% !important;
+  max-width: 900px;
+  margin: auto;
+}
+
+.offcanvasBody {
+  background-color: #e1ece3;
+}
+
+.shareBox {
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 3em;
+  border-color: #62d089 !important;
+}
+
 .stackedWaves {
   background-image: url('../public/stacked-waves-haikei.svg');
   background-position: center;
