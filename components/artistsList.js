@@ -52,42 +52,44 @@ export default function ArtistsList({ artists }) {
       </style>
       <Row>
         <Col md={12} lg={6}>
-          <ListGroup as="ol">
+          <ListGroup as="ul">
             {artists
               .slice(0, Math.floor(artists.length / 2))
               .map((item, index) => (
                 <ListGroup.Item
-                  as="li"
+                  as="a"
                   className="d-flex align-items-center w-100 mx-auto mb-2 bg-success-subtle"
                   key={item.id}
+                  href={item.external_urls.spotify}
+                  target="_blank"
                 >
-                  <a href={item.external_urls.spotify}>
-                    <div className="me-auto d-flex align-items-center">
-                      <div>{index + 1}.</div>
-                      <Image
-                        className={styles.artistImg}
-                        src={item.images[0]?.url}
-                        height={75}
-                        width={75}
-                        rounded
-                      />
-                      <div className="fw-semibold">{item.name}</div>
-                    </div>
-                    {getPopularity(item.popularity)}
-                  </a>
+                  <div className="me-auto d-flex align-items-center">
+                    <div>{index + 1}.</div>
+                    <Image
+                      className={styles.artistImg}
+                      src={item.images[0]?.url}
+                      height={75}
+                      width={75}
+                      rounded
+                    />
+                    <div className="fw-semibold">{item.name}</div>
+                  </div>
+                  {getPopularity(item.popularity)}
                 </ListGroup.Item>
               ))}
           </ListGroup>
         </Col>
         <Col md={12} lg={6}>
-          <ListGroup as="ol">
+          <ListGroup as="ul">
             {artists
               .slice(Math.floor(artists.length / 2))
               .map((item, index) => (
                 <ListGroup.Item
-                  as="li"
-                  className="d-flex justify-content-between align-items-center w-100 mx-auto mb-2 bg-success-subtle"
+                  as="a"
+                  className="d-flex align-items-center w-100 mx-auto mb-2 bg-success-subtle"
                   key={item.id}
+                  href={item.external_urls.spotify}
+                  target="_blank"
                 >
                   <div className="me-auto d-flex align-items-center">
                     <div>{index + 1 + Math.floor(artists.length / 2)}.</div>

@@ -15,7 +15,6 @@ export default function Home() {
   const [span, setSpan] = useState("short");
   const [limit, setLimit] = useState(10);
   const [artists, setArtists] = useState([]);
-  const [avgPop, setAvgPop] = useState(0);
   const [resultState, setResultState] = useState("");
   const [resDescIndex, setResDescIndex] = useState(0);
   const reactionsTitles = {
@@ -49,9 +48,6 @@ export default function Home() {
       "You talk about your high school years a litle bit too much",
     ],
   };
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const median = (arr) => {
     const mid = Math.floor(arr.length / 2),
@@ -74,7 +70,6 @@ export default function Home() {
     const middle = median(popularities);
     const mean = cumSum / items.length;
     const result = Math.min(middle, mean);
-    setAvgPop(result);
     setArtists(items);
     return result;
   };
@@ -104,8 +99,7 @@ export default function Home() {
   useEffect(() => {
     if (status == "authenticated") {
       getUniqueScore("short", 10);
-      var element = document.getElementById("results");
-      setTimeout(() => element.scrollIntoView(), 1000);
+      setTimeout(() => document.getElementById("results").scrollIntoView(), 1000);
     }
   }, [status]);
 
@@ -116,7 +110,7 @@ export default function Home() {
       <Navbar>
         <Container>
           <Navbar.Brand href="#home">Exposify</Navbar.Brand>
-          {session ? (
+          {status == 'authenticated' ? (
             <Navbar.Collapse className="justify-content-end">
               <Navbar.Text>
                 Signed in as: <span>{session.user.name}</span>
@@ -151,7 +145,7 @@ export default function Home() {
             Learn more about what your top artists say about you by signing into
             your Spotify account below!
           </p>
-          {session ? (
+          {status == 'authenticated' ? (
             <Button
               className={styles.landingBtn}
               href="#results"
@@ -181,41 +175,6 @@ export default function Home() {
               <p className={classnames("fs-5 mb-5", styles.reactionDesc)}>
                 {reactionsDesc[resultState][resDescIndex]}
               </p>
-              <Button variant="success" onClick={handleShow}>
-                Share results
-              </Button>
-              <Offcanvas
-                show={show}
-                onHide={handleClose}
-                placement="bottom"
-                className={styles.offcanvas}
-              >
-                <Offcanvas.Header closeButton>
-                  <Offcanvas.Title className="mx-auto">Share</Offcanvas.Title>
-                </Offcanvas.Header>
-                <Offcanvas.Body
-                  className={classnames("text-center", styles.offcanvasBody)}
-                >
-                  <div
-                    className={classnames(
-                      styles.shareBox,
-                      "border border-success border-5 rounded"
-                    )}
-                  >
-                    <h4 className="fw-normal">
-                      Your top artists say you're a(n)
-                    </h4>
-                    <h4 className="fw-normal">
-                      {reactionsTitles[resultState]}
-                    </h4>
-                    <p>{reactionsDesc[resultState][resDescIndex]}</p>
-                  </div>
-                  <div className={classnames("w-75 mx-auto")}>
-                    <h4 className="mt-4 mb-2 fw-normal">Top Artists</h4>
-                    <ArtistList artists={artists.slice(0, 3)} />
-                  </div>
-                </Offcanvas.Body>
-              </Offcanvas>
             </div>
             <div className={styles.stackedWaves}>
               <Container>
