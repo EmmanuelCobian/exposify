@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Navbar from "react-bootstrap/Navbar";
-import { Container, Button, Row, Col } from "react-bootstrap";
+import { Container, Button, Image } from "react-bootstrap";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
-import Offcanvas from "react-bootstrap/Offcanvas";
 import classnames from "classnames";
 import SEO from "../components/seo";
 import ArtistList from "../components/artistsList";
@@ -97,9 +98,13 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (status == "authenticated") {
+    console.log(session);
+    if (status == "authenticated" && resultState == "") {
       getUniqueScore("short", 10);
-      setTimeout(() => document.getElementById("results").scrollIntoView(), 1000);
+      setTimeout(
+        () => document.getElementById("results").scrollIntoView(),
+        1000
+      );
     }
   }, [status]);
 
@@ -110,17 +115,17 @@ export default function Home() {
       <Navbar>
         <Container>
           <Navbar.Brand href="#home">Exposify</Navbar.Brand>
-          {status == 'authenticated' ? (
+          {status == "authenticated" ? (
             <Navbar.Collapse className="justify-content-end">
               <Navbar.Text>
-                Signed in as: <span>{session.user.name}</span>
+                <Image src={session.user.image} roundedCircle  width={50} height={50} className="me-2"/>
               </Navbar.Text>
-              <Button
-                className={styles.navSignOut}
-                onClick={() => signOut({ callbackUrl: "/" })}
-              >
-                Sign out
-              </Button>
+              <DropdownButton id="menu-dropdown" variant="success" align="end" title="Menu">
+                <Dropdown.Item onClick={() => signOut({ callbackUrl: "/" })}>
+                  Sign Out
+                </Dropdown.Item>
+                <Dropdown.Item href="https://www.spotify.com/us/account/apps/">Remove Account</Dropdown.Item>
+              </DropdownButton>
             </Navbar.Collapse>
           ) : (
             <Navbar.Collapse className="justify-content-end">
@@ -145,7 +150,7 @@ export default function Home() {
             Learn more about what your top artists say about you by signing into
             your Spotify account below!
           </p>
-          {status == 'authenticated' ? (
+          {status == "authenticated" ? (
             <Button
               className={styles.landingBtn}
               href="#results"
