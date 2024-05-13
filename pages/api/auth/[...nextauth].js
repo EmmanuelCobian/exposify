@@ -2,30 +2,6 @@ import NextAuth from "next-auth"
 import SpotifyProvider from "next-auth/providers/spotify"
 
 const scope = "user-top-read user-read-email user-read-private"
-const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`
-const client_id = process.env.SPOTIFY_CLIENT_ID
-const client_secret = process.env.SPOTIFY_CLIENT_SECRET
-const basic = Buffer.from(client_id + ':' + client_secret).toString('base64')
-
-async function refreshAccessToken(token) {
-  const response = await fetch(TOKEN_ENDPOINT, {
-    method: 'POST',
-    headers: {
-      Authorization: `Basic ${basic}`,
-    },
-    body: new URLSearchParams({
-      grant_type: 'refresh_token',
-      refresh_token: token.refreshToken,
-    }),
-  })
-  const data = await response.json()
-  return {
-    ...token,
-    accessToken: data.access_token,
-    refreshToken: data.refresh_token ?? token.refreshToken,
-    accessTokenExpires: Date.now() + data.expires_in * 1000,
-  }
-}
 
 export const authOptions = {
   providers: [
@@ -39,18 +15,21 @@ export const authOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, account }) {
-      if (account) {
-        token.accessToken = account.access_token
-        token.refreshToken = account.refresh_token
-        token.accesTokenExpires = account.expires_at
-        return token
+    async signIn({user}) {
+      let allowedUsers = ['rcobian2321@gmail.com', 'alexbeltram120@gmail.com', 'meme11648@gmail.com', 'd39146@gmail.com', 'jvalera5678@gmail.com', 'jeffdaniel365@yahoo.com', 'maxwellzking@gmail.com', 'andybabson@gmail.com', 'abarrios20@icloud.com', 'ecobian12310@gmail.com']
+      if (allowedUsers.includes(user.email)) {
+        return true
       }
-
-      return await refreshAccessToken(token)
+      return false
     },
-    async session({ session, token }) {
-      session.accessToken = token.accessToken
+    async jwt({token, user, account, profile, isNewUser}) {
+      if (account?.access_token) {
+        token.access_token = account.access_token
+      }
+      return token
+    },
+    async session({session, user, token }) {
+      session.accessToken = token.access_token
       return session
     }
   }

@@ -97,20 +97,20 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    console.log(session);
-    if (status == "authenticated" && resultState == "") {
-      getUniqueScore("short", 10);
-      setTimeout(
-        () => document.getElementById("results").scrollIntoView(),
-        1000
-      );
-    }
-  }, [status]);
+  // useEffect(() => {
+  //   console.log(session);
+  //   if (status == "authenticated" && resultState == "") {
+  //     getUniqueScore("short", 10);
+  //     setTimeout(
+  //       () => document.getElementById("results").scrollIntoView(),
+  //       1000
+  //     );
+  //   }
+  // }, [status]);
 
   return (
     <>
-      <SEO pageTitle={"Exposify"} pageDescription={"Welcome!"} />
+      <SEO pageTitle={"Exposify"} pageDescription={"Welcome! Learn what your top artists say about you."} />
 
       <Navbar>
         <Container>
@@ -121,17 +121,17 @@ export default function Home() {
                 <Image src={session.user.image} roundedCircle  width={50} height={50} className="me-2"/>
               </Navbar.Text>
               <DropdownButton id="menu-dropdown" variant="success" align="end" title="Menu">
-                <Dropdown.Item onClick={() => signOut({ callbackUrl: "/" })}>
+                <Dropdown.Item onClick={() => signOut()}>
                   Sign Out
                 </Dropdown.Item>
-                <Dropdown.Item href="https://www.spotify.com/us/account/apps/">Remove Account</Dropdown.Item>
+                <Dropdown.Item onClick={() => signOut()} href="https://www.spotify.com/us/account/apps/" target="_blank">Remove Account</Dropdown.Item>
               </DropdownButton>
             </Navbar.Collapse>
           ) : (
             <Navbar.Collapse className="justify-content-end">
               <Button
                 className={styles.navSignIn}
-                onClick={() => signIn("spotify", { callbackUrl: "/" })}
+                onClick={() => signIn(('spotify'))}
               >
                 Sign in with <i className="bi bi-spotify ms-1" />
               </Button>
