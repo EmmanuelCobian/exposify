@@ -1,0 +1,24 @@
+.landing {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-image: url('../public/blob-scene-haikei\ \(1\).svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    width: 100%;
+}
+
+.navSignIn {
+background-color: #4ea96f;
+border: #4ea96f solid 1px;
+color: #fff;
+}
+
+.navSignIn:hover, .navSignIn:hover:active {
+background-color: #316a45;
+border: #316a45 solid 1px;
+}

@@ -20,7 +20,7 @@ export const authOptions = {
       if (allowedUsers.includes(user.email)) {
         return true
       }
-      return false
+      return '/unauthorized'
     },
     async jwt({token, user, account, profile, isNewUser}) {
       if (account?.access_token) {
