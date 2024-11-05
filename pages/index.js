@@ -97,20 +97,24 @@ export default function Home() {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(session);
-  //   if (status == "authenticated" && resultState == "") {
-  //     getUniqueScore("short", 10);
-  //     setTimeout(
-  //       () => document.getElementById("results").scrollIntoView(),
-  //       1000
-  //     );
-  //   }
-  // }, [status]);
+  const handleSignIn = () => {
+    try {
+      signIn("spotify");
+    } catch (err) {
+      alert("error");
+    }
+  };
+
+  const handleSignOut = () => {
+    signOut({ callbackUrl: "/" });
+  };
 
   return (
     <>
-      <SEO pageTitle={"Exposify"} pageDescription={"Welcome! Learn what your top artists say about you."} />
+      <SEO
+        pageTitle={"Exposify"}
+        pageDescription={"Welcome! Learn what your top artists say about you."}
+      />
 
       <Navbar>
         <Container>
@@ -118,21 +122,35 @@ export default function Home() {
           {status == "authenticated" ? (
             <Navbar.Collapse className="justify-content-end">
               <Navbar.Text>
-                <Image src={session.user.image} roundedCircle  width={50} height={50} className="me-2"/>
+                <Image
+                  src={session.user.image}
+                  roundedCircle
+                  width={50}
+                  height={50}
+                  className="me-2"
+                />
               </Navbar.Text>
-              <DropdownButton id="menu-dropdown" variant="success" align="end" title="Menu">
-                <Dropdown.Item onClick={() => signOut()}>
+              <DropdownButton
+                id="menu-dropdown"
+                variant="success"
+                align="end"
+                title="Menu"
+              >
+                <Dropdown.Item onClick={handleSignOut}>
                   Sign Out
                 </Dropdown.Item>
-                <Dropdown.Item onClick={() => signOut()} href="https://www.spotify.com/us/account/apps/" target="_blank">Remove Account</Dropdown.Item>
+                <Dropdown.Item
+                  onClick={handleSignOut}
+                  href="https://www.spotify.com/us/account/apps/"
+                  target="_blank"
+                >
+                  Remove Account
+                </Dropdown.Item>
               </DropdownButton>
             </Navbar.Collapse>
           ) : (
             <Navbar.Collapse className="justify-content-end">
-              <Button
-                className={styles.navSignIn}
-                onClick={() => signIn(('spotify'))}
-              >
+              <Button className={styles.navSignIn} onClick={handleSignIn}>
                 Sign in with <i className="bi bi-spotify ms-1" />
               </Button>
             </Navbar.Collapse>
@@ -159,10 +177,7 @@ export default function Home() {
               Check Me Out
             </Button>
           ) : (
-            <Button
-              className={styles.landingBtn}
-              onClick={() => signIn("spotify", { callbackUrl: "/" })}
-            >
+            <Button className={styles.landingBtn} onClick={handleSignIn}>
               Sign in with <i className="bi bi-spotify ms-1" />
             </Button>
           )}
@@ -266,7 +281,7 @@ export default function Home() {
       </section>
 
       <footer id="footer" className={styles.footer}>
-        <p>Made by Emmanuel Cobian Duarte</p>
+        <p>Made by Emmanuel Cobian</p>
         <a
           className={styles.socials}
           href="https://github.com/EmmanuelCobian"
